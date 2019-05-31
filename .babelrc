@@ -1,0 +1,14 @@
+/*
+ * @Author: DevZhang 
+ * @Date: 2019-05-31 10:57:18 
+ * @Last Modified by: DevZhang
+ * @Last Modified time: 2019-05-31 10:57:59
+ */
+
+
+{
+    "presets": [
+        "@babel/preset-env",
+        "@babel/preset-react"
+    ]
+}
