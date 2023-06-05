@@ -28,6 +28,45 @@ module.exports = {
                     'postcss-loader',
                     'less-loader'
                 ]
+            },
+            {
+                test: /\.(png|jpg|jpeg|gif|svg)$/, // 匹配图片文件
+                type: 'asset', // 依赖于webpack5, 会根据文件大小自动在base64和文件之间切换
+                parser: {
+                    dataUrlCondition: {
+                        maxSize: 10 * 1024 // 10kb 以下的图片会被转为base64
+                    }
+                },
+                generator: {
+                    // 打包后的文件路径 + 文件名 + hash值 + 文件后缀
+                    filename: 'static/images/[name].[hash:6][ext]'
+                }
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/, // 匹配字体文件
+                type: 'asset',
+                parser: {
+                    dataUrlCondition: {
+                        maxSize: 10 * 1024 // 10kb 以下的会被转为base64
+                    }
+                },
+                generator: {
+                    // 打包后的文件路径 + 文件名 + hash值 + 文件后缀
+                    filename: 'static/fonts/[name].[hash:6][ext]'
+                }
+            },
+            {
+                test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)$/, // 匹配媒体文件
+                type: 'asset',
+                parser: {
+                    dataUrlCondition: {
+                        maxSize: 10 * 1024 // 10kb 以下的会被转为base64
+                    }
+                },
+                generator: {
+                    // 打包后的文件路径 + 文件名 + hash值 + 文件后缀
+                    filename: 'static/media/[name].[hash:6][ext]'
+                }
             }
         ]
     },
