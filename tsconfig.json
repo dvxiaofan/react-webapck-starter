@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true,
     "target": "ESNext",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "allowJs": false,
