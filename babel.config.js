@@ -1,4 +1,6 @@
 // babel.config.js
+
+const isDEV = process.env.NODE_ENV === 'development'; // 判断是否是开发环境
 module.exports = {
     // 执行顺序由右往左,所以先处理ts,再处理jsx,最后再试一下babel转换为低版本语法
     "presets": [
@@ -18,6 +20,7 @@ module.exports = {
         "@babel/preset-typescript"
     ],
     "plugins": [
+        isDEV && require.resolve('react-refresh/babel'), // 开发环境下才使用react-refresh/babel
         ["@babel/plugin-proposal-decorators", { "legacy": true  }]
-    ]
+    ].filter(Boolean) // 过滤掉false,undefined,null等值
 }
