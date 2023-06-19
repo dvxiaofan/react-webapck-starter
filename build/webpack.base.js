@@ -17,11 +17,21 @@ module.exports = {
     module: {
         rules: [
             {
+                include: path.resolve(__dirname, '../src'), // 指定检查的目录
                 test: /\.(ts|tsx)$/, // 匹配文件
-                use: 'babel-loader', // 使用的loader
+                use: ['thread-loader', 'babel-loader'],
             },
             {
-                test: /.(css|less)$/,
+                test: /.css$/, // 匹配css文件
+                include: path.resolve(__dirname, '../src'), // 指定检查的目录
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'postcss-loader'
+                ]
+            },
+            {
+                test: /.less$/,
                 use: [
                     'style-loader',
                     'css-loader',
@@ -68,17 +78,14 @@ module.exports = {
                     filename: 'static/media/[name].[hash:6][ext]'
                 }
             },
-            {
-                test: /\.(ts|tsx)$/,
-                use: ['thread-loader', 'babel-loader'],
-            }
         ]
     },
     resolve: {
         extensions: ['.js', '.ts', '.tsx'], // 自动解析确定的扩展
         alias: {
             '@': path.join(__dirname, '../src') // 配置@指向src目录
-        }
+        },
+        modules: [path.resolve(__dirname, '../node_modules')], // 指定第三方模块的绝对路径
     },
     plugins: [
         // 生成html文件
