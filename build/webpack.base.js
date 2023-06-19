@@ -67,11 +67,18 @@ module.exports = {
                     // 打包后的文件路径 + 文件名 + hash值 + 文件后缀
                     filename: 'static/media/[name].[hash:6][ext]'
                 }
+            },
+            {
+                test: /\.(ts|tsx)$/,
+                use: ['thread-loader', 'babel-loader'],
             }
         ]
     },
     resolve: {
         extensions: ['.js', '.ts', '.tsx'], // 自动解析确定的扩展
+        alias: {
+            '@': path.join(__dirname, '../src') // 配置@指向src目录
+        }
     },
     plugins: [
         // 生成html文件

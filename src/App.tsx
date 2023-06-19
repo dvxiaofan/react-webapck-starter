@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import largeImg from './assets/imgs/large.png';
-import smallImg from './assets/imgs/small.png';
-import './App.css';
-import './app.less';
+import largeImg from '@/assets/imgs/large.png';
+import smallImg from '@/assets/imgs/small.png';
+import '@/app.css';
+import '@/app.less';
 
 function App() {
     const [count, setCount] = useState(0);
@@ -13,13 +13,10 @@ function App() {
 
     return (
         <>
-            <h2>888888</h2>
-            <p>受控组件</p>
-            <input type="text" value={count} onChange={onChange} />
-            <br />
-
-            <p>非受控组件</p>
-            <input type="text"/>
+            <img src={smallImg} alt="小于10kb的图片" />
+            {/*<img src={largeImg} alt="大于于10kb的图片" />*/}
+            {/*<div className='smallImg'></div> /!* 小图片背景容器 *!/*/}
+            {/*<div className='bigImg'></div> /!* 大图片背景容器 *!/*/}
         </>
     )
 }

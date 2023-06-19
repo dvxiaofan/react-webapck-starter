@@ -14,7 +14,11 @@
     "moduleResolution": "node",
     "strict": true,
     "noEmit": true,
-    "jsx": "react"
+    "jsx": "react",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
 //    "outDir": "dist",
 //    "sourceMap": true,
 //    "noImplicitAny": true,
