@@ -2,9 +2,11 @@ const { merge } = require('webpack-merge');
 const baseConfig = require('./webpack.base.js');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerWebpackPlugin = require('css-minimizer-webpack-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
+const globAll = require('glob-all');
+const PurgeCSSPlugin = require('purgecss-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = merge(baseConfig, {
     mode: 'production',
@@ -16,13 +18,28 @@ module.exports = merge(baseConfig, {
                     to: path.resolve(__dirname, '../dist'),
                     filter: source => {
                         return !source.includes('index.html'); // 过滤掉index.html
-                    }
-                }
-            ]
+                    },
+                },
+            ],
         }),
+        // 分离css
         new MiniCssExtractPlugin({
-            filename: 'static/css/[name].[contenthash:8].css' // 打包后的文件路径 + 文件名 + 文件后缀
-        })
+            filename: 'static/css/[name].[contenthash:8].css', // 打包后的文件路径 + 文件名
+                                                              // + 文件后缀
+        }),
+        // 去除无用的css
+        new PurgeCSSPlugin({
+            paths: globAll.sync([
+                // 指定要做CSS TreeShaking的路径文件
+                `${path.join(__dirname, '../src')}/**/*.tsx`,
+                // 指定html文件，主要是为了解析html文件中的className
+                path.join(__dirname, '../public/index.html'),
+            ]),
+            safelist: {
+                // 保留antd和iconfont的样式
+                standard: [/^ant-/, /^iconfont/, /^icon-/,],
+            }
+        }),
     ],
     optimization: {
         minimizer: [
@@ -31,10 +48,10 @@ module.exports = merge(baseConfig, {
                 parallel: true, // 开启多进程并行压缩
                 terserOptions: {
                     compress: {
-                        pure_funcs: ['console.log'] // 去除console.log
-                    }
-                }
-            })
+                        pure_funcs: ['console.log'], // 去除console.log
+                    },
+                },
+            }),
         ],
         splitChunks: { // 分割代码块
             cacheGroups: { // 缓存组
@@ -44,15 +61,15 @@ module.exports = merge(baseConfig, {
                     minChunks: 1, // 最小分割数量
                     chunks: 'initial', // 刚开始就分割
                     minSize: 0, // 最小体积
-                    priority: 1 // 优先级
+                    priority: 1, // 优先级
                 },
                 commons: { // 公共模块
                     name: 'commons',
                     minChunks: 2, // 最小分割数量
                     chunks: 'initial', // 刚开始就分割
                     minSize: 0, // 最小体积
-                }
-            }
-        }
-    }
+                },
+            },
+        },
+    },
 })
