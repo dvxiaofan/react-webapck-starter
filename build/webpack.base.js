@@ -2,9 +2,8 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
-
-console.log('NODE_ENV: ', process.env.NODE_ENV);
-console.log('BUILD_ENV: ', process.env.BUILD_ENV);
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const isDEV = process.env.NODE_ENV === 'development'; // 判断是否是开发环境
 
 module.exports = {
     entry: path.join(__dirname, '../src/index.tsx'),
@@ -25,15 +24,16 @@ module.exports = {
                 test: /.css$/, // 匹配css文件
                 include: path.resolve(__dirname, '../src'), // 指定检查的目录
                 use: [
-                    'style-loader',
+                    isDEV ? 'style-loader' : MiniCssExtractPlugin.loader,
                     'css-loader',
                     'postcss-loader'
                 ]
             },
             {
                 test: /.less$/,
+                include: path.resolve(__dirname, '../src'), // 指定检查的目录
                 use: [
-                    'style-loader',
+                    isDEV ? 'style-loader' : MiniCssExtractPlugin.loader,
                     'css-loader',
                     'postcss-loader',
                     'less-loader'

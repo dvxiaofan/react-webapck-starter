@@ -2,6 +2,7 @@ const { merge } = require('webpack-merge');
 const baseConfig = require('./webpack.base.js');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = merge(baseConfig, {
     mode: 'production',
@@ -16,6 +17,9 @@ module.exports = merge(baseConfig, {
                     }
                 }
             ]
+        }),
+        new MiniCssExtractPlugin({
+            filename: 'static/css/[name].css' // 打包后的文件路径 + 文件名 + 文件后缀
         })
     ]
 })
