@@ -9,7 +9,7 @@ module.exports = {
     entry: path.join(__dirname, '../src/index.tsx'),
     output: {
         path: path.join(__dirname, '../dist'),
-        filename: 'static/js/[name].js',
+        filename: 'static/js/[name].[chunkhash:8].js',
         clean: true,
         publicPath: '/'
     },
@@ -49,7 +49,7 @@ module.exports = {
                 },
                 generator: {
                     // 打包后的文件路径 + 文件名 + hash值 + 文件后缀
-                    filename: 'static/images/[name].[hash:6][ext]'
+                    filename: 'static/images/[name].[contenthash:8][ext]'
                 }
             },
             {
@@ -62,7 +62,7 @@ module.exports = {
                 },
                 generator: {
                     // 打包后的文件路径 + 文件名 + hash值 + 文件后缀
-                    filename: 'static/fonts/[name].[hash:6][ext]'
+                    filename: 'static/fonts/[name].[contenthash:8][ext]'
                 }
             },
             {
@@ -75,7 +75,7 @@ module.exports = {
                 },
                 generator: {
                     // 打包后的文件路径 + 文件名 + hash值 + 文件后缀
-                    filename: 'static/media/[name].[hash:6][ext]'
+                    filename: 'static/media/[name].[contenthash:8][ext]'
                 }
             },
         ]
