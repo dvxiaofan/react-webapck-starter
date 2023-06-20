@@ -35,6 +35,24 @@ module.exports = merge(baseConfig, {
                     }
                 }
             })
-        ]
+        ],
+        splitChunks: { // 分割代码块
+            cacheGroups: { // 缓存组
+                vendors: { // 第三方模块
+                    test: /node_modules/, // 匹配规则
+                    name: 'vendors', // 分割后的文件名
+                    minChunks: 1, // 最小分割数量
+                    chunks: 'initial', // 刚开始就分割
+                    minSize: 0, // 最小体积
+                    priority: 1 // 优先级
+                },
+                commons: { // 公共模块
+                    name: 'commons',
+                    minChunks: 2, // 最小分割数量
+                    chunks: 'initial', // 刚开始就分割
+                    minSize: 0, // 最小体积
+                }
+            }
+        }
     }
 })
