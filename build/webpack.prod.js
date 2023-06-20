@@ -7,6 +7,7 @@ const TerserWebpackPlugin = require('terser-webpack-plugin');
 const globAll = require('glob-all');
 const PurgeCSSPlugin = require('purgecss-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
 
 module.exports = merge(baseConfig, {
     mode: 'production',
@@ -24,8 +25,8 @@ module.exports = merge(baseConfig, {
         }),
         // 分离css
         new MiniCssExtractPlugin({
-            filename: 'static/css/[name].[contenthash:8].css', // 打包后的文件路径 + 文件名
-                                                              // + 文件后缀
+            // 打包后的文件路径 + 文件名 + 文件后缀
+            filename: 'static/css/[name].[contenthash:8].css',
         }),
         // 去除无用的css
         new PurgeCSSPlugin({
@@ -39,6 +40,14 @@ module.exports = merge(baseConfig, {
                 // 保留antd和iconfont的样式
                 standard: [/^ant-/, /^iconfont/, /^icon-/,],
             }
+        }),
+        // 开启gzip压缩
+        new CompressionWebpackPlugin({
+            test: /\.(js|css)$/, // 匹配文件名
+            filename: '[path][base].gz', // 压缩后的文件名(保持原文件名，后缀加.gz)
+            algorithm: 'gzip', // 压缩算法
+            threshold: 10240, // 对超过10kb的数据进行压缩
+            minRatio: 0.8, // 压缩比例，值为0 ~ 1
         }),
     ],
     optimization: {
